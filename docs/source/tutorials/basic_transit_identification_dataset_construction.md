@@ -27,7 +27,7 @@ In our example code, we've split the data based on if it's train, validation, or
 
 ## Creating a function to load the data
 
-The next thing `qusi` needs is the function to load the data. In our example case, we use the same function to do this in all cases. It looks like:
+The next thing `qusi` needs is the function to load the data. We use the same function in all cases. It looks like:
 
 ```python
 def load_times_and_fluxes_from_path(path):
@@ -35,11 +35,11 @@ def load_times_and_fluxes_from_path(path):
     return light_curve.times, light_curve.fluxes
 ```
 
-This uses a builtin class in `qusi` that is designed for loading light curves from TESS mission FITS files. However, the important thing is that your function returns two comma separated values, which is a NumPy array of the times and a NumPy array of the fluxes of your light curve. And the function takes a single `Path` object as input. These `Path` objects will be one of the ones we returned from the functions in the previous section. But you can write any code you need to get from a `Path` to the two arrays that represent times and fluxes. For example, if your file is a simple CSV file, it would be easy to use Pandas to load the CSV file and extract the time column and the flux column as two arrays which are then returned at the end of the function. You will see the above function in `scripts/dataset.py`.
+You will see the above function in `scripts/dataset.py`. It uses a builtin class in `qusi` that is designed for loading light curves from TESS mission FITS files. However, the important thing is that your function returns two comma separated values - a NumPy array of the times and a NumPy array of the fluxes of your light curve. And the function takes a single `Path` object as input. (These `Path` objects will have been  returned from the functions in the previous section.) You can, however, write any code you need to get from a `Path` to the two arrays that represent times and fluxes. For example, if your file is a simple CSV file, it would be easy to use Pandas to load the CSV file and extract the time column and the flux column as two arrays which are then returned at the end of the function. 
 
 ## Creating a function to provide a label for the data
 
-Now we need to define what label belongs to each light curve in our data. In the next section, we're going to join the function we made previously to get the paths to the function that assigns the labels. Since we already defined different functions to get the paths for positive cases and negative cases and we're going to explicitly join this to a label function, for this current use case, we don't actually need the label function to contain any real logic in it. We're going to define two functions, that always return 0 (for negative) or always return 1 (for positive). They look like:
+Now we need to define what label belongs to each light curve in our data. In the next section, we're going to join the function we made previously to get the paths to the function that assigns the labels. Since we already defined different functions to get the paths for positive cases and negative cases and we're going to explicitly join this to a label function, for this current use case, we don't actually need the label function to contain any real logic in it. We're going to define two functions that always return 0 (for negative) or always return 1 (for positive). They look like:
 
 ```python
 def positive_label_function(path):
